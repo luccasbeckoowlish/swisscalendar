@@ -1,0 +1,37 @@
+# Vite build output
+dist/
+
+# Dependency directory
+node_modules/
+
+# Environment files
+.env
+.env.*.local
+
+# Logs
+*.log
+
+# Editor directories and files
+.vscode/
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Vite cache (optional)
+.cache/
+.vite/
+
+# Misc
+*.swp
+*.bak
+*.orig
+*.tmp
+
+# Coverage
+coverage/
+
+# Local-only files
+*.local
+*.key
+*.crt
+*.pem
