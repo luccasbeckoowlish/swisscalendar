@@ -42,8 +42,6 @@ export default function SwissHolidayTracker() {
     );
   };
   
-  
-
   // Load saved preferences
   useEffect(() => {
     const prefs = JSON.parse(localStorage.getItem('holidayPrefs'));
@@ -74,9 +72,13 @@ export default function SwissHolidayTracker() {
     try {
       const res = await fetch(`https://date.nager.at/api/v3/PublicHolidays/${year}/CH`);
       const all = await res.json();
-      const cantonCode = cantonMap[canton];
-      const filtered = all.filter(h => h.counties?.includes(`CH-${cantonCode}`) || !h.counties);
-  
+      const cantonCode = canton;
+      console.log('cancon code', cantonCode)
+      const filtered = all.filter(h => {
+        // Inclui feriados nacionais (sem counties) ou específicos do cantão
+        return !h.counties || h.counties.includes(`CH-${cantonCode}`);
+      });
+      console.log(filtered)
       const normalizedWorkdays = workdays.map(d => d.toLowerCase());
       const getWeekdayName = (date: Date) =>
         date.toLocaleDateString('en-US', { weekday: 'long' }).toLowerCase();
@@ -85,13 +87,10 @@ export default function SwissHolidayTracker() {
   
       const holidayEvents = filtered.map(holiday => {
         const [year, month, day] = holiday.date.split('-').map(Number);
-  const dateObj = new Date(year, month - 1, day);
+      const dateObj = new Date(year, month - 1, day);
         const weekday = getWeekdayName(dateObj);
         const holidayFallsOnWorkday = isWorkday(dateObj);
 
-        console.log('test', normalizedWorkdays, getWeekdayName(dateObj), holidayFallsOnWorkday)
-        // console.log('getWeekdayName(date)', getWeekdayName(dateObj))
-  
         let title = holiday.localName;
         let color = '#ccc';
 
