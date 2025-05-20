@@ -3,6 +3,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import HolidayDisclaimer from './HolidayDisclaimer';
+import { WorkdaysCheckboxGroup } from './WorkdaysCheckboxGroup';
 const cantonMap = {
   AG: 'AG',
   BE: 'BE',
@@ -133,22 +134,11 @@ export default function SwissHolidayTracker() {
           </label>
         </div>
 
-        <div>
-          <label>Work Days:</label>
-          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
-            {weekdays.map((day) => (
-              <label key={day}>
-                <input
-                  type="checkbox"
-                  checked={workdays.includes(day)}
-                  onChange={() => toggleWorkday(day)}
-                  style={{ marginRight: '0.25rem' }}
-                />
-                {day.slice(0, 3)}
-              </label>
-            ))}
-          </div>
-        </div>
+        <WorkdaysCheckboxGroup 
+          weekdays={weekdays}
+          selectedDays={workdays}
+          onToggle={toggleWorkday}
+        />
       </div>
 
       <div id="calendar">
