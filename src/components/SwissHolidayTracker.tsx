@@ -5,14 +5,16 @@ import listPlugin from '@fullcalendar/list';
 import HolidayDisclaimer from './HolidayDisclaimer';
 import { WorkdaysCheckboxGroup } from './WorkdaysCheckboxGroup';
 import { YearSelect } from './YearSelect';
+import { CantonSelect } from './CantonSelect';
+
 const cantonMap = {
-  AG: 'AG',
-  BE: 'BE',
-  ZH: 'ZH',
-  LU: 'LU',
-  GE: 'GE',
-  TI: 'TI',
-  VD: 'VD',
+  AG: 'Aargau',
+  BE: 'Bern',
+  ZH: 'Zürich',
+  LU: 'Luzern',
+  GE: 'Genève',
+  TI: 'Ticino',
+  VD: 'Vaud',
 };
 
 const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -119,16 +121,8 @@ export default function SwissHolidayTracker() {
       <h1 style={{ textAlign: 'center' }} className="mb-10">Swiss Canton Holiday Tracker 🇨🇭</h1>
 
       <div className="controls mb-5" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between' }}>
-        <div>
-          <label>
-            Canton:
-            <select value={canton} onChange={(e) => setCanton(e.target.value)} style={{ marginLeft: '0.5rem' }}>
-              {Object.keys(cantonMap).map((key) => (
-                <option key={key} value={key}>{key}</option>
-              ))}
-            </select>
-          </label>
-        </div>
+        
+        <CantonSelect value={canton} onChange={setCanton} />
 
         <YearSelect year={year} onChange={setYear} />
 
