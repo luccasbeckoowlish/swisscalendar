@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import listPlugin from '@fullcalendar/list';
 import HolidayDisclaimer from './HolidayDisclaimer';
 import { WorkdaysCheckboxGroup } from './WorkdaysCheckboxGroup';
+import { YearSelect } from './YearSelect';
 const cantonMap = {
   AG: 'AG',
   BE: 'BE',
@@ -100,6 +101,13 @@ export default function SwissHolidayTracker() {
     }
   };
 
+  useEffect(() => {
+    if (calendarRef.current) {
+      const calendarApi = calendarRef.current.getApi();
+      calendarApi.gotoDate(`${year}-01-01`);
+    }
+  }, [year]);  
+
   const toggleWorkday = (day) => {
     setWorkdays((prev) =>
       prev.includes(day) ? prev.filter(d => d !== day) : [...prev, day]
@@ -122,17 +130,7 @@ export default function SwissHolidayTracker() {
           </label>
         </div>
 
-        <div>
-          <label>
-            Year:
-            <select value={year} onChange={(e) => setYear(Number(e.target.value))} style={{ marginLeft: '0.5rem' }}>
-              {[...Array(4)].map((_, i) => {
-                const y = currentYear + i;
-                return <option key={y} value={y}>{y}</option>;
-              })}
-            </select>
-          </label>
-        </div>
+        <YearSelect year={year} onChange={setYear} />
 
         <WorkdaysCheckboxGroup 
           weekdays={weekdays}
